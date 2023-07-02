@@ -31,7 +31,7 @@ function authHeader(url){
     const isLoggedIn = user?.token;
     const isApiUrl = url.startsWith(publicRuntimeConfig.apiUrl);
     if (isLoggedIn && isApiUrl){
-        return { Authorized: `Bearer ${user.token}` }
+        return { authorization: `Bearer ${user.token}` }
     } else {
         return {}
     }

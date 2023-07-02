@@ -1,8 +1,8 @@
 import { createRouter } from "next-connect";
 import prisma from "@/lib/prisma";
-
+import apiHeaderMiddleware from "@/middleware/apiHeaderMiddleware";
 const router = createRouter();
-
+router.use(apiHeaderMiddleware);
 router.get(async (req, res) => {
     const result = await prisma.user.findMany({
         where:{
@@ -13,7 +13,6 @@ router.get(async (req, res) => {
         data:result
     });
 });
-
 router.post(async (req, res) => {
     const { firstName, lastName, username, password, profile_pic, status } = req.body;
     
