@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 async function main() {
     const dataUser = [
         {
-            fistName: 'Geraldi',
+            firstName: 'Geraldi',
             lastName: 'Adityo',
             username: 'superadmin',
             password: bcrypt.hashSync('Ge@140019',8),

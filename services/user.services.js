@@ -27,3 +27,7 @@ function logout() {
     userSubject.next(null);
     Router.push("/users/auth");
 }
+
+async function getDataPost(userId, published){
+   return await fetchWrapper.get(`${baseUrl}/users/posts/${userId}/${published}`);
+}
