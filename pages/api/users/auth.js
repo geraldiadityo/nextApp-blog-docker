@@ -20,9 +20,7 @@ router.post(async (req, res) => {
     });
 
     if (!(dataUser && bcrypt.compareSync(password, dataUser.password))){
-        return res.json({
-            message:'username or password is incorrect'
-        });
+        return res.status(401).send({ message:"username or password is incorrect" });
     }
 
     const token = jwt.sign({sub: dataUser.id}, process.env.JWT_SECRET_KEY, {expiresIn:'7d'});

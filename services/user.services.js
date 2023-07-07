@@ -20,12 +20,13 @@ async function login(data){
     const user = await fetchWrapper.post(`${baseUrl}/auth`,data);
     userSubject.next(user);
     localStorage.setItem("user", JSON.stringify(user));
+    return user;
 }
 
 function logout() {
     localStorage.removeItem("user");
     userSubject.next(null);
-    Router.push("/users/auth");
+    Router.push("/auth");
 }
 
 async function getDataPost(userId, published){

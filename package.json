@@ -10,18 +10,35 @@
     "seeder": "node prisma/seeder.js"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.1.1",
     "@prisma/client": "^4.16.1",
     "bcryptjs": "^2.4.3",
+    "bootstrap": "^5.2.3",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
     "jsonwebtoken": "^9.0.0",
     "multer": "^1.4.5-lts.1",
     "next": "13.4.7",
     "next-connect": "^1.0.0",
+    "next-seo": "^6.1.0",
+    "prism-react-renderer": "^2.0.6",
     "prisma": "^4.16.1",
     "react": "18.2.0",
-    "react-bootstrap": "^2.8.0",
+    "react-bootstrap": "^2.7.4",
+    "react-bootstrap-icons": "^1.10.3",
     "react-dom": "18.2.0",
-    "rxjs": "^7.8.1"
+    "react-feather": "^2.0.10",
+    "react-hook-form": "^7.45.1",
+    "react-responsive": "^9.0.2",
+    "react-select": "^5.7.3",
+    "rxjs": "^7.8.1",
+    "sass": "^1.62.1",
+    "sass-loader": "^13.2.2",
+    "simplebar": "^6.2.5",
+    "simplebar-react": "^3.2.4",
+    "sweetalert2": "^11.7.12",
+    "sweetalert2-react-content": "^5.0.7",
+    "uuid": "^9.0.0",
+    "yup": "^1.2.0"
   }
 }
