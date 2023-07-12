@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import PublicLayout from '@/components/publik/PublicLayout'
 export default function Home() {
   return (
     <>
@@ -14,3 +15,5 @@ export default function Home() {
     </>
   )
 }
+
+Home.Layout = PublicLayout;

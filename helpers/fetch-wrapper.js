@@ -1,6 +1,6 @@
 import { userServices } from "@/services/user.services"
+import { getCookie } from "cookies-next";
 import getConfig from "next/config";
-
 const { publicRuntimeConfig } = getConfig();
 
 export const fetchWrapper = {
@@ -27,11 +27,10 @@ function request(method) {
 }
 
 function authHeader(url){
-    const user = userServices.userValue;
-    const isLoggedIn = user?.token;
+    const isLoggedIn = getCookie('token');
     const isApiUrl = url.startsWith(publicRuntimeConfig.apiUrl);
     if (isLoggedIn && isApiUrl){
-        return { authorization: `Bearer ${user.token}` }
+        return { authorization: `Bearer ${isLoggedIn}` }
     } else {
         return {}
     }

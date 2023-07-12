@@ -27,7 +27,7 @@ const NavbarTop = (props) => {
                     </div>
                 </div>
                 <Nav className="navbar-right-wrap ms-2 d-flex nav-top-wrap">
-                    <QuickMenu logout={props.logout} data={props.data.data} />
+                    <QuickMenu logout={props.logout}/>
                 </Nav>
             </div>
         </Navbar>

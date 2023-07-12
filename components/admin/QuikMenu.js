@@ -20,10 +20,11 @@ import NotificationList from 'data/Notification';
 // import hooks
 import useMounted from 'hooks/useMounted';
 
-const QuickMenu = (props) => {
-    
-    const user = props.data || undefined;
-    const data = user !== undefined ? user.data : undefined
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutUser } from '@/reducer/auth/action-creators';
+const QuickMenu = () => {
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.auth.user);
 
     const hasMounted = useMounted();
     
@@ -106,7 +107,7 @@ const QuickMenu = (props) => {
                     >
                     <Dropdown.Item as="div" className="px-4 pb-0 pt-2" bsPrefix=' '>
                             <div className="lh-1 ">
-                                <h5 className="mb-1"> {data !== undefined ? data.firstName : ''}</h5>
+                                <h5 className="mb-1"> { user.firstName }</h5>
                                 <Link href="#" className="text-inherit fs-6">View my profile</Link>
                             </div>
                             <div className=" dropdown-divider mt-3 mb-2"></div>
@@ -124,7 +125,7 @@ const QuickMenu = (props) => {
                         <i className="fe fe-settings me-2"></i> Account Settings
                     </Dropdown.Item>
                     <Dropdown.Item >
-                        <button type='button' onClick={props.logout}>
+                        <button type='button' onClick={() => dispatch(logoutUser())}>
                             <i className='fe fe-power me-2'></i> Sign Out
                         </button>
                     </Dropdown.Item>
@@ -183,7 +184,7 @@ const QuickMenu = (props) => {
                     >
                     <Dropdown.Item as="div" className="px-4 pb-0 pt-2" bsPrefix=' '>
                             <div className="lh-1 ">
-                                <h5 className="mb-1"> {data !== undefined ? data.firstName : ''}</h5>
+                                <h5 className="mb-1"> {user.firstName}</h5>
                                 <Link href="#" className="text-inherit fs-6">View my profile</Link>
                             </div>
                             <div className=" dropdown-divider mt-3 mb-2"></div>
@@ -201,7 +202,7 @@ const QuickMenu = (props) => {
                         <i className="fe fe-settings me-2"></i> Account Settings
                     </Dropdown.Item>
                     <Dropdown.Item>
-                        <button type='button' onClick={props.logout}>
+                        <button type='button' onClick={() => dispatch(logoutUser())}>
                             <i className='fe fe-power me-2'></i> Sign Out
                         </button>
                     </Dropdown.Item>

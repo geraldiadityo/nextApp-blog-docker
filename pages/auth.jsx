@@ -12,12 +12,16 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import Swal from 'sweetalert2';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '@/reducer/auth/action-creators';
+import { setCookie } from 'cookies-next';
 // importing layout
 import AuthLayout from '@/components/admin/AuthLayout';
 
 const SignIn = () => {
     const router = useRouter();
+    const dispatch = useDispatch();
+    const isLoggedIn = useSelector((state) => state.auth?.isLoggedIn);
     const validationSchema = Yup.object().shape({
         username: Yup.string().required('this field is required'),
         password: Yup.string().required("this field is required"),
@@ -29,7 +33,9 @@ const SignIn = () => {
     
     async function onSubmit(data){
         return userServices.login(data)
-        .then(() => {
+        .then((res) => {
+            setCookie('token', res.token);
+            dispatch(loginUser(res.data));
             const returnUrl = router.query.returnUrl || '/admin';
             router.push(returnUrl);
         })
@@ -44,15 +50,12 @@ const SignIn = () => {
         })
     }
 
-    function authChecker(){
-        if (userServices.userValue){
-            router.push('/admin');
-        }
-    }
 
     useEffect(() => {
-        authChecker();
-    },[]);
+        if (isLoggedIn){
+            router.push('/admin');
+        }
+    },[isLoggedIn]);
 
     return (
         <Row className='align-items-center justify-content-center g-0 min-vh-100'>
