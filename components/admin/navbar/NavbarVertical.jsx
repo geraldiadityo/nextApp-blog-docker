@@ -7,6 +7,7 @@ import {
     Accordion,
     Card,
     Image,
+	Badge,
     useAccordionButton,
     AccordionContext
 } from 'react-bootstrap';
