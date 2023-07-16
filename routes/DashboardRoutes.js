@@ -40,7 +40,7 @@ export const DashboardMenu = [
 		title: 'Master',
 		icon: 'layers',
 		children: [
-			{ id: uuid(), link: '/admin/master/pendidikan', name: 'Pendidikan' },
+			{ id: uuid(), link: '/admin/master/categorie', name: 'Categorie' },
 			{ id: uuid(), link: '/admin/master/pekerjaan', name: 'Pekerjaan'},
 			{ id: uuid(), link: '/admin/master/questioner', name: 'Questioner' },
 			{ id: uuid(), link: '/admin/master/groupquestion', name: 'Group question'},

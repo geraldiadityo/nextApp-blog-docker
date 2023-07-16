@@ -23,6 +23,12 @@ model User {
   posts Post[]
 }
 
+model Categorie {
+  id Int @id @default(autoincrement())
+  nama String
+  posts Post[]
+}
+
 model Post {
   id String @default(cuid()) @id
   title String
@@ -31,4 +37,7 @@ model Post {
   published Boolean @default(false)
   author User? @relation(fields: [authorId], references: [id])
   authorId Int
+  categorie Categorie? @relation(fields: [categorieId], references: [id])
+  categorieId Int
 }
+

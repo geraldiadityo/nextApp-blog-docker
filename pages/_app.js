@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }) {
   const router = useRouter();
   
   const pageUrl = process.env.baseUrl + router.pathname;
-  const title = 'geraldi dashboard UI';
+  const title = 'geraldi blog artikel';
   const description = 'geraldi dashboard UI template';
   const keyword = "dash ui, template, dashboard, nextjs, geraldi, blog";
 
