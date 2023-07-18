@@ -4,14 +4,15 @@ import apiHeaderMiddleware from "@/middleware/apiHeaderMiddleware";
 
 const router = createRouter();
 
+router.use(apiHeaderMiddleware);
 router.get(async (req, res) => {
+    
     const result = await prisma.role.findMany();
     return res.json({
         data:result
     });
 });
 
-router.use(apiHeaderMiddleware);
 router.post(async (req, res) => {
     const { nama } = req.body;
     await prisma.role.create({

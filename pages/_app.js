@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from '@/reducer/store';
 import { getCookie } from 'cookies-next';
+import jwt from 'jsonwebtoken';
 
 
 export default function App({ Component, pageProps }) {
@@ -27,6 +28,7 @@ export default function App({ Component, pageProps }) {
     const publicPath = ["/","/auth"];
     const path = url.split("?")[0];
     if (!cookie && !publicPath.includes(path)) {
+      console.log(cookie);
       router.push({
         pathname: '/auth',
         query: { returnUrl: router.asPath }

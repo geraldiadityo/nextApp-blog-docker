@@ -7,11 +7,10 @@ const apiHeaderMiddleware = createRouter();
 
 apiHeaderMiddleware.use(async (req, res, next) => {
     const { headers } = req;
-    // const currentToken = getCookie('token', {req, res});
     const currentToken = headers.authorization?.replace('Bearer ',"");
     
     if (!currentToken) {
-        return res.status(401).json({ message: 'Unauthorized' });
+        return res.status(401).json({ message: 'Tidak Ada Akses' });
     }
 
     try {

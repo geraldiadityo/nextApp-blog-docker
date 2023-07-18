@@ -24,7 +24,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '@/reducer/auth/action-creators';
 const QuickMenu = () => {
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.auth.user);
+    const user = useSelector((state) => state.auth?.user);
 
     const hasMounted = useMounted();
     
@@ -107,7 +107,7 @@ const QuickMenu = () => {
                     >
                     <Dropdown.Item as="div" className="px-4 pb-0 pt-2" bsPrefix=' '>
                             <div className="lh-1 ">
-                                <h5 className="mb-1"> { user.firstName }</h5>
+                                <h5 className="mb-1"> { user ? user.firstName : '' }</h5>
                                 <Link href="#" className="text-inherit fs-6">View my profile</Link>
                             </div>
                             <div className=" dropdown-divider mt-3 mb-2"></div>
@@ -184,7 +184,7 @@ const QuickMenu = () => {
                     >
                     <Dropdown.Item as="div" className="px-4 pb-0 pt-2" bsPrefix=' '>
                             <div className="lh-1 ">
-                                <h5 className="mb-1"> {user.firstName}</h5>
+                                <h5 className="mb-1"> { user ? user.firstName : ''}</h5>
                                 <Link href="#" className="text-inherit fs-6">View my profile</Link>
                             </div>
                             <div className=" dropdown-divider mt-3 mb-2"></div>

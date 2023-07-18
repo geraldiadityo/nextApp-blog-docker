@@ -3,12 +3,13 @@ import { Row, Col, Card, Table } from "react-bootstrap";
 import { useState, useEffect, Fragment } from "react";
 import Link from "next/link";
 import Swal from "sweetalert2";
+import prisma from "@/lib/prisma";
 
-export const getServerSideProps = async ({req, res}) => {
-    const dataRole = await roleService.getall();
+export const getServerSideProps = async () => {
+    const dataRole = await prisma.role.findMany();
     return {
         props:{
-            roles: dataRole.data
+            roles: dataRole
         }
     }
 };

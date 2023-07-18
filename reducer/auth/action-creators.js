@@ -7,6 +7,7 @@ export const loginUser = (user) => async (dispatch) => {
 
 export const logoutUser = (user) => async (dispatch) => {
     dispatch(deAuthenticated(user));
+    deleteCookie("token");
 };
 
 export const checkLogin = (user) => async (dispatch) => {
