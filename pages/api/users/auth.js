@@ -14,6 +14,9 @@ router.post(async (req, res) => {
         });
     }
     const dataUser = await prisma.user.findUnique({
+        include:{
+            role:true
+        },
         where:{
             username:username
         }

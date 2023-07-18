@@ -74,9 +74,9 @@ export const DashboardMenu = [
 	},
 	{
 		id: uuid(),
-		title: 'Access Control',
+		title: 'Role',
 		icon: 'lock',
-		link: '/admin/akses'
+		link: '/admin/role'
 	}
 ];
 

@@ -11,8 +11,21 @@ async function main() {
             password: bcrypt.hashSync('Ge@140019',8),
             profile_pic: undefined,
             status: true,
+            roleId:1
         }
     ];
+
+    const dataRole = [
+        {
+            nama: 'Administrator'
+        }
+    ];
+
+    for (const role of dataRole) {
+        await prisma.role.create({
+            data:role
+        });
+    }
 
     for (const user of dataUser) {
         await prisma.user.create({

@@ -10,6 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Role {
+  id Int @id @default(autoincrement())
+  nama String @unique
+  users User[]
+}
 model User {
   id Int @id @default(autoincrement())
   firstName String
@@ -20,6 +25,8 @@ model User {
   status Boolean @default(false)
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
+  role Role? @relation(fields: [roleId], references: [id])
+  roleId Int
   posts Post[]
 }
 
@@ -40,4 +47,6 @@ model Post {
   categorie Categorie? @relation(fields: [categorieId], references: [id])
   categorieId Int
 }
+
+
 
