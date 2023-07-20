@@ -1,43 +1,44 @@
-import { roleService } from "@/services/role.services";
+import { userServices } from "@/services/user.services";
 import { Row, Col, Card, Table } from "react-bootstrap";
 import { useState, useEffect, Fragment } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Swal from "sweetalert2";
-import prisma from "@/lib/prisma";
-import { useRouter } from "next/router";
+
 export const getServerSideProps = async () => {
-    const dataRole = await prisma.role.findMany();
+    const users = await userServices.getAllUser()
     return {
-        props:{
-            roles: dataRole
+        props: {
+            dataUser: users.data
         }
     }
 };
 
-const Home = ({ roles }) => {
-    const [dataRoles, setDataRoles] = useState(null);
+const Home = ({ dataUser }) => {
+    const [users, setUsers] = useState(null);
     const router = useRouter();
-    useEffect(() => {
-        setDataRoles(roles);
-    },[roles]);
 
-    const deleteItem = async(id) => {
-        await roleService.delete(id)
+    useEffect(() => {
+        setUsers(dataUser);
+    },[dataUser]);
+
+    const deleteUser = async (id) => {
+        await userServices.deleteUser(id)
         .then((res) => {
             Swal.fire({
                 title: 'Success',
                 text: res.message,
-                icon: 'success',
+                icon:'success',
                 showConfirmButton: false,
                 timer: 3000
             });
-            router.push('/admin/role');
+            router.push('/admin/users');
         })
         .catch((err) => {
             Swal.fire({
                 title: 'Failed',
                 text: err,
-                icon:'error',
+                icon: 'error',
                 showConfirmButton: false,
                 timer: 3000
             });
@@ -47,7 +48,7 @@ const Home = ({ roles }) => {
     const showNotification = (id) => {
         Swal.fire({
             title: 'are you sure?',
-            text:'delete this item',
+            text:'delete this User',
             icon:'warning',
             showCancelButton: true,
             confirmButtonText: "yes",
@@ -55,9 +56,9 @@ const Home = ({ roles }) => {
             cancelButtonColor: "#d33",
             cancelButtonText:'No'
         })
-        .then((result) => {
-            if (result.isConfirmed){
-                deleteItem(id);
+        .then((res) => {
+            if (res.isConfirmed){
+                deleteUser(id);
             }
         });
     };
@@ -69,10 +70,10 @@ const Home = ({ roles }) => {
                     <div>
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="mb-2 mb-lg-0">
-                                <h3 className="mb-0">Data Role</h3>
+                                <h3 className="mb-0">Data All User</h3>
                             </div>
                             <div>
-                                <Link href="/admin/role/add" className="btn btn-primary">Create New Role</Link>
+                                <Link href="/admin/users/add" className="btn btn-primary">Create New User</Link>
                             </div>
                         </div>
                     </div>
@@ -80,41 +81,45 @@ const Home = ({ roles }) => {
                 <Col md={12} xs={12}>
                     <Card>
                         <Card.Header className="bg-white py-4">
-                            <h4 className="mb-0">Role List</h4>
+                            <h4 className="mb-0">User List</h4>
                         </Card.Header>
-                        <Table responsive className="text-nowrap mb-0">
+                        <Table responsive className="text-text-nowrap mb-0">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Role Name</th>
+                                    <th>Name</th>
+                                    <th>username</th>
+                                    <th>Status</th>
+                                    <th>Role</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {dataRoles && dataRoles.map((data, index) => {
+                                {dataUser && dataUser.map((data, index) => {
                                     return (
                                         <tr key={data.id}>
                                             <td>{index+1}</td>
-                                            <td>{data.nama}</td>
+                                            <td>{data.firstName} {data.lastName}</td>
+                                            <td>{data.username}</td>
+                                            <td>{data.status === true ? 'Activated' : 'Not Activated'}</td>
+                                            <td>{data.role.nama}</td>
                                             <td>
-                                                <Link href={`/admin/role/edit/${data.id}`} className="btn btn-sm btn-success">Edit</Link>
-                                                &nbsp;
-                                                <button type="button" className="btn btn-sm btn-danger" onClick={() => showNotification(data.id)}>Delete</button>
+                                                <button type="button" className="btn btn-sm btn-danger" onClick={() => showNotification(data.id)}>DELETE</button>
                                             </td>
                                         </tr>
                                     )
                                 })}
-                                {!dataRoles && 
+                                {!dataUser &&
                                     <tr>
-                                        <td colSpan={3} className="text-center">
-                                            waiting...!
+                                        <td colSpan={5} className="text-center">
+                                            waiting....
                                         </td>
                                     </tr>
                                 }
-                                {dataRoles && !dataRoles.length &&
+                                {dataUser && !dataUser.length &&
                                     <tr>
-                                        <td colSpan={3} className="text-center">
-                                            No Data to Display
+                                        <td colSpan={5} className="text-center">
+                                            No Data Display!
                                         </td>
                                     </tr>
                                 }
@@ -125,9 +130,6 @@ const Home = ({ roles }) => {
             </Row>
         </Fragment>
     )
-
-
 };
 
 export default Home;
-

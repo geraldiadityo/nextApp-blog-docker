@@ -34,7 +34,7 @@ router.delete(async (req, res) => {
     
     await prisma.user.delete({
         where:{
-            id:id,
+            id:parseInt(id),
         },
     });
 

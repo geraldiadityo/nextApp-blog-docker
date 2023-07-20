@@ -10,6 +10,10 @@ export const userServices = {
     user: userSubject.asObservable(),
     get userValue() { return userSubject.value },
     login,
+    getAllUser,
+    getOneUser,
+    addUser,
+    deleteUser
 };
 
 async function login(data){
@@ -17,6 +21,18 @@ async function login(data){
     return user;
 }
 
-async function getDataPost(userId, published){
-   return await fetchWrapper.get(`${baseUrl}/users/posts/${userId}/${published}`);
+async function getAllUser(){
+    return await fetchWrapper.get(`${baseUrl}`);
+}
+
+async function getOneUser(id){
+    return await fetchWrapper.get(`${baseUrl}/${id}`);
+}
+
+async function addUser(data){
+    return await fetchWrapper.post(`${baseUrl}`,data);
+}
+
+async function deleteUser(id){
+    return await fetchWrapper.delete(`${baseUrl}/${id}`);
 }
