@@ -13,7 +13,11 @@ export const userServices = {
     getAllUser,
     getOneUser,
     addUser,
-    deleteUser
+    deleteUser,
+    createArticle,
+    getArticle,
+    deleteArticle,
+    publishArticle,
 };
 
 async function login(data){
@@ -36,3 +40,21 @@ async function addUser(data){
 async function deleteUser(id){
     return await fetchWrapper.delete(`${baseUrl}/${id}`);
 }
+
+async function createArticle(userId, data){
+    return await fetchWrapper.upload(`${baseUrl}/posts/${userId}`, data);
+}
+
+async function getArticle(userId, typePublish){
+    return await fetchWrapper.get(`${baseUrl}/posts/${userId}/${typePublish}`);
+}
+
+async function deleteArticle(id){
+    return await fetchWrapper.delete(`${baseUrl}/posts/${id}`);
+}
+
+async function publishArticle(id){
+    return await fetchWrapper.patch(`${baseUrl}/posts/${id}`);
+}
+
+

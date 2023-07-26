@@ -7,10 +7,12 @@ export const fetchWrapper = {
     get: request('GET'),
     post: request('POST'),
     put: request('PUT'),
-    delete: request('DELETE')
+    patch: request('PATCH'),
+    delete: request('DELETE'),
+    upload: request('POST','upload'),
 }
 
-function request(method) {
+function request(method, action='default') {
     return (url, body) => {
         const requestOption = {
             method,
@@ -18,8 +20,12 @@ function request(method) {
         };
 
         if (body){
-            requestOption.headers['Content-Type'] = 'application/json';
-            requestOption.body = JSON.stringify(body);
+            if (action === 'default'){
+                requestOption.headers['Content-Type'] = 'application/json';
+                requestOption.body = JSON.stringify(body);
+            } else {
+                requestOption.body = body
+            }
         }
 
         return fetch(url, requestOption).then(handleResponse);
