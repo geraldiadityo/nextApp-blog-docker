@@ -38,7 +38,7 @@ const ListArticle = (props) => {
                                     <tr key={data.id}>
                                         <td>{index+1}</td>
                                         <td>{data.title}</td>
-                                        <td>{data.published === 'true' ? 'publish' : 'Unpublish'}</td>
+                                        <td>{data.published === true ? 'publish' : 'Unpublish'}</td>
                                         <td>{data.status === false ? data.createdAt : data.updatedAt}</td>
                                         <td>
                                             <button type="button" className="btn btn-sm btn-danger" onClick={() => props.showNotification('wanna delete article', 'delete', data.id)}>Delete</button>

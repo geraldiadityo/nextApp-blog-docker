@@ -54,11 +54,11 @@ export const DashboardMenu = [
 	},	
 	{
 		id: uuid(),
-		title: 'Survey Data',
+		title: 'Your Articles',
 		icon: 'monitor',
 		children: [
 			{ id: uuid(), link: '/admin/article/articledraft', name: 'Draft' },
-			{ id: uuid(), link: '/admin/survey', name: 'Survey Result' },
+			{ id: uuid(), link: '/admin/article/articlepublish', name: 'Publish' },
 		]
 	},
 	{

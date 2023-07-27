@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { createRouter } from "next-connect";
 import apiHeaderMiddleware from "@/middleware/apiHeaderMiddleware";
 import multer from "multer";
-
+const fs = require('fs');
 let fileName = 'posts' + '-' + new Date().getDate();
 const upload = multer({
     storage: multer.diskStorage({
@@ -93,6 +93,15 @@ router.post(async (req, res) => {
 
 router.delete(async (req, res) => {
     const [ id ] = req.query.slug;
+    
+    const dataPost = await prisma.post.findUnique({
+        where:{
+            id: id
+        }
+    });
+
+    const currentFileName = dataPost.contentPic;
+    fs.unlinkSync('./public/upload/content/'+currentFileName);
 
     await prisma.post.delete({
         where:{
