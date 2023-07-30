@@ -101,7 +101,7 @@ const ArticleDraft = () => {
     return (
         <Fragment>
             <PageHeading heading="list Draft Article" />
-            <ListArticle articles={articles} showNotification={showNotification} />
+            <ListArticle articles={articles} showNotification={showNotification} typeList={"draft"} />
         </Fragment>
     )
 };

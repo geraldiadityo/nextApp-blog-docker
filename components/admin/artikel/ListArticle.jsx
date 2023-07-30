@@ -1,8 +1,10 @@
 import { Row, Col, Table, Card } from "react-bootstrap";
 import Link from "next/link";
+import { ModalView } from "./Modal";
+import { parseDate } from "@/lib/getDateTime";
 const ListArticle = (props) => {
     const dataArticle = props.articles;
-    
+    const typeList = props.typeList;
     return (
         <Row className="mt-6">
             <Col lg={12} md={12} xs={12}>
@@ -28,7 +30,7 @@ const ListArticle = (props) => {
                                 <th>#</th>
                                 <th>Title</th>
                                 <th>Status</th>
-                                <th>Date</th>
+                                <th>Date {typeList === 'publish' ? 'Published' : 'Created'}</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -39,7 +41,7 @@ const ListArticle = (props) => {
                                         <td>{index+1}</td>
                                         <td>{data.title}</td>
                                         <td>{data.published === true ? 'publish' : 'Unpublish'}</td>
-                                        <td>{data.status === false ? data.createdAt : data.updatedAt}</td>
+                                        <td>{data.published === true ? parseDate(data.publishAt) : parseDate(data.createdAt)}</td>
                                         <td>
                                             <button type="button" className="btn btn-sm btn-danger" onClick={() => props.showNotification('wanna delete article', 'delete', data.id)}>Delete</button>
                                             &nbsp;
@@ -50,7 +52,7 @@ const ListArticle = (props) => {
                                                 ''
                                             )}
                                             &nbsp;
-                                            <button type="button" className="btn btn-sm btn-default" onClick={() => props.viewArticle(data.id)}>View</button>
+                                            <ModalView article={data} />
                                         </td>
                                     </tr>
                                 )

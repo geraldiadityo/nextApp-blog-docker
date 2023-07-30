@@ -22,8 +22,38 @@ router.get(async (req, res) => {
     let query = req.query.slug;
     const [ id, published ] = query;
     let typePublished = true
+    let result;
     if (published === 'draft'){
         typePublished = false
+        result = await prisma.post.findMany({
+            where:{
+                AND: [
+                    {authorId: parseInt(id)},
+                    {published: typePublished}
+                ],
+            },
+            include: {
+                categorie:true
+            },
+            orderBy:{
+                createdAt: 'desc',
+            }
+        });
+    } else {
+        result = await prisma.post.findMany({
+            where:{
+                AND: [
+                    {authorId: parseInt(id)},
+                    {published: typePublished}
+                ],
+            },
+            include: {
+                categorie: true
+            },
+            orderBy: {
+                publishAt: 'desc'
+            }
+        });
     }
     
     // const result = await prisma.user.findUnique({
@@ -38,17 +68,7 @@ router.get(async (req, res) => {
     //         }
     //     }
     // });
-    const result = await prisma.post.findMany({
-        where:{
-            AND: [
-                {authorId: parseInt(id)},
-                {published: typePublished}
-            ],
-        },
-        include: {
-            categorie:true
-        }
-    });
+    
     return res.json({
         data:result
     });
@@ -116,13 +136,15 @@ router.delete(async (req, res) => {
 
 router.patch(async (req, res) => {
     const [ id ] = req.query.slug;
-    
+    const date = new Date();
+    const currentDate = date.toISOString();
     await prisma.post.update({
         where:{
             id: id
         },
         data:{
-            published: true
+            published: true,
+            publishAt: currentDate
         }
     });
 

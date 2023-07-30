@@ -48,7 +48,7 @@ const ArticlePublish = () => {
         });
     };
 
-    const showNotification = (message, typeActiom, id) => {
+    const showNotification = (message, typeAction, id) => {
         return Swal.fire({
             title: 'are you sure?',
             text: message,
@@ -73,7 +73,7 @@ const ArticlePublish = () => {
     return (
         <Fragment>
             <PageHeading heading="Article Published" />
-            <ListArticle articles={dataArticle} showNotification={showNotification} />
+            <ListArticle articles={dataArticle} showNotification={showNotification} typeList={"publish"} />
         </Fragment>
     )
 };

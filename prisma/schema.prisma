@@ -22,7 +22,7 @@ model User {
   username String @unique
   password String @db.LongText
   profile_pic String? @db.LongText
-  status Boolean @default(false)
+  status Boolean @default(true)
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
   role Role? @relation(fields: [roleId], references: [id])
@@ -40,9 +40,11 @@ model Post {
   id String @default(cuid()) @id
   title String
   contentPic String? @db.LongText 
-  content String?
+  content String? @db.LongText
   published Boolean @default(false)
   author User? @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  publishAt DateTime?
   authorId Int
   categorie Categorie? @relation(fields: [categorieId], references: [id])
   categorieId Int
