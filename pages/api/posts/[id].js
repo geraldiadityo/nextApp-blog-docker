@@ -8,6 +8,9 @@ router.get(async (req, res) => {
     const result = await prisma.post.findUnique({
         where:{
             id:id
+        },
+        include:{
+            categorie: true,
         }
     });
 

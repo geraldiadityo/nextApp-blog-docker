@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import { useState, useEffect } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import { useRouter } from "next/router";
@@ -14,10 +14,11 @@ const Editor = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Edi
 const AddEdit = (props) => {
     const router = useRouter();
     const user = props?.user;
+    const article = props?.article;
     const [dataCategorie, setDataCategorie] = useState([]);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState(EditorState.createEmpty());
-    const [gambar, setGambar] = useState();
+    const [gambar, setGambar] = useState(null);
     const [categorie, setCategorie] = useState("");
 
     const handleFileUpload = (event) => {
@@ -53,6 +54,11 @@ const AddEdit = (props) => {
     };
 
     useEffect(() => {
+        if (props.article){
+            setTitle(article.title);
+            setCategorie(article.categorie.nama);
+            setContent(EditorState.createWithContent(convertFromRaw(JSON.parse(article.content))));
+        }
         getDataCategorie();
     },[]);
 
@@ -61,9 +67,7 @@ const AddEdit = (props) => {
         const valueContent = content.getCurrentContent();
         const rawContentState = convertToRaw(valueContent);
 
-        if (!gambar){
-            return;
-        }
+
 
         try{
             // const data = {
@@ -81,17 +85,31 @@ const AddEdit = (props) => {
             formData.append("gambar", gambar);
             formData.append("categorie", categorie);
             
-            await userServices.createArticle(user.id, formData)
-            .then((res) => {
-                Swal.fire({
-                    title:'Success',
-                    text: res.message,
-                    icon:'success',
-                    showConfirmButton: false,
-                    timer: 3000
+            if (article){
+                await userServices.updateArticle(article.id, formData)
+                .then((res) => {
+                    Swal.fire({
+                        title: 'Success',
+                        text: res.message,
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
                 });
-                router.push("/admin/article/articledraft");
-            });
+            } else {
+                await userServices.createArticle(user.id, formData)
+                .then((res) => {
+                    Swal.fire({
+                        title:'Success',
+                        text: res.message,
+                        icon:'success',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                
+                });
+            }
+            router.push("/admin/article/articledraft");
         } catch (err){
             Swal.fire({
                 title: "Failed",
@@ -144,7 +162,7 @@ const AddEdit = (props) => {
                                 </div>
                             </Row>
                             <Row className="mb-3">
-                                <label className="col-sm-4 col-form-label form-label">Image Content</label>
+                                <label className="col-sm-4 col-form-label form-label">Image Content {article ? ' (leave if not change)' : ''}</label>
                                 <div className="col-md-8 col-12">
                                     <input
                                         type="file"

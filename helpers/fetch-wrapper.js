@@ -10,6 +10,7 @@ export const fetchWrapper = {
     patch: request('PATCH'),
     delete: request('DELETE'),
     upload: request('POST','upload'),
+    uploadUpdate: request('PATCH','upload'),
 }
 
 function request(method, action='default') {

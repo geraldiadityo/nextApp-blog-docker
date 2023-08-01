@@ -15,6 +15,7 @@ export const userServices = {
     addUser,
     deleteUser,
     createArticle,
+    updateArticle,
     getArticle,
     deleteArticle,
     publishArticle,
@@ -43,6 +44,10 @@ async function deleteUser(id){
 
 async function createArticle(userId, data){
     return await fetchWrapper.upload(`${baseUrl}/posts/${userId}`, data);
+}
+
+async function updateArticle(id, data){
+    return await fetchWrapper.uploadUpdate(`${baseUrl}/post/${id}`,data);
 }
 
 async function getArticle(userId, typePublish){

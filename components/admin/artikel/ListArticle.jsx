@@ -51,6 +51,12 @@ const ListArticle = (props) => {
                                             ) : (
                                                 ''
                                             )}
+                                            {data.published === false
+                                            ? (
+                                                <Link href={`/admin/article/edit/${data.id}`} className="btn btn-sm btn-info">Edit</Link>
+                                            ) : (
+                                                ''
+                                            )}
                                             &nbsp;
                                             <ModalView article={data} />
                                         </td>
