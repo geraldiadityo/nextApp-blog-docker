@@ -5,6 +5,7 @@ import { parseDate } from "@/lib/getDateTime";
 const ListArticle = (props) => {
     const dataArticle = props.articles;
     const typeList = props.typeList;
+    const role = props?.role;
     return (
         <Row className="mt-6">
             <Col lg={12} md={12} xs={12}>
@@ -31,6 +32,9 @@ const ListArticle = (props) => {
                                 <th>Title</th>
                                 <th>Status</th>
                                 <th>Date {typeList === 'publish' ? 'Published' : 'Created'}</th>
+                                {role !== 'Penulis' &&
+                                    <th>Author</th>
+                                }
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -42,16 +46,19 @@ const ListArticle = (props) => {
                                         <td>{data.title}</td>
                                         <td>{data.published === true ? 'publish' : 'Unpublish'}</td>
                                         <td>{data.published === true ? parseDate(data.publishAt) : parseDate(data.createdAt)}</td>
+                                        {role !== 'Penulis' &&
+                                            <td>{data.author.firstName}</td>
+                                        }
                                         <td>
                                             <button type="button" className="btn btn-sm btn-danger" onClick={() => props.showNotification('wanna delete article', 'delete', data.id)}>Delete</button>
                                             &nbsp;
-                                            {data.published === false
+                                            {data.published === false && role !== 'Penulis'
                                             ? (
                                                 <button type="button" className="btn btn-sm btn-success" onClick={() => props.showNotification('wanna publish article','publish', data.id)}>Publish</button>
                                             ) : (
                                                 ''
                                             )}
-                                            {data.published === false
+                                            {data.published === false && role === 'Penulis'
                                             ? (
                                                 <Link href={`/admin/article/edit/${data.id}`} className="btn btn-sm btn-info">Edit</Link>
                                             ) : (

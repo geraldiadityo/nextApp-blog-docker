@@ -13,11 +13,22 @@ import {
 } from 'react-bootstrap';
 import SimpleBar from "simplebar-react";
 import 'simplebar/dist/simplebar.min.css';
+import { useSelector } from "react-redux";
 
 import { DashboardMenu } from 'routes/DashboardRoutes';
+import { PenulisMenu } from 'routes/PenulisRoutes';
 
 const NavbarVertical = (props) => {
 	const location = useRouter();
+	const user = useSelector((state) => state.auth?.user);
+	
+	const userRole = user.role.nama;
+	let RouterDashboard;
+	if (userRole !== 'Administrator'){
+		RouterDashboard = PenulisMenu;
+	} else {
+		RouterDashboard = DashboardMenu;
+	}
 
 	const CustomToggle = ({ children, eventKey, icon }) => {
 		const { activeEventKey } = useContext(AccordionContext);
@@ -100,7 +111,7 @@ const NavbarVertical = (props) => {
 				</div>
 				{/* Dashboard Menu */}
 				<Accordion defaultActiveKey="0" as="ul" className="navbar-nav flex-column">
-					{DashboardMenu.map(function (menu, index) {
+					{RouterDashboard.map(function (menu, index) {
 						if (menu.grouptitle) {
 							return (
 								<Card bsPrefix="nav-item" key={index}>

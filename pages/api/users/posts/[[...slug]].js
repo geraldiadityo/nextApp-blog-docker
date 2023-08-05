@@ -23,38 +23,82 @@ router.get(async (req, res) => {
     const [ id, published ] = query;
     let typePublished = true
     let result;
-    if (published === 'draft'){
-        typePublished = false
-        result = await prisma.post.findMany({
-            where:{
-                AND: [
-                    {authorId: parseInt(id)},
-                    {published: typePublished}
-                ],
-            },
-            include: {
-                categorie:true
-            },
-            orderBy:{
-                createdAt: 'desc',
-            }
-        });
+    const user = await prisma.user.findUnique({
+        where:{
+            id: parseInt(id)
+        },
+        include:{
+            role: true
+        }
+    });
+    let role = user.role.nama;
+    if (role === 'Administrator' || role === 'Publisher'){
+        if (published === 'draft'){
+            typePublished = false;
+            result = await prisma.post.findMany({
+                where:{
+                    published: typePublished
+                },
+                include: {
+                    categorie: true,
+                    author: true
+                },
+                orderBy: {
+                    createdAt: 'desc'
+                }
+            });
+        } else {
+            typePublished = true;
+            result = await prisma.post.findMany({
+                where:{
+                    published: typePublished
+                },
+                include: {
+                    categorie: true,
+                    author: true
+                },
+                orderBy: {
+                    publishAt: 'desc'
+                }
+            });
+        }
     } else {
-        result = await prisma.post.findMany({
-            where:{
-                AND: [
-                    {authorId: parseInt(id)},
-                    {published: typePublished}
-                ],
-            },
-            include: {
-                categorie: true
-            },
-            orderBy: {
-                publishAt: 'desc'
-            }
-        });
+        if (published === 'draft'){
+            typePublished = false
+            result = await prisma.post.findMany({
+                where:{
+                    AND: [
+                        {authorId: parseInt(id)},
+                        {published: typePublished}
+                    ],
+                },
+                include: {
+                    categorie: true,
+                    author: true
+                },
+                orderBy:{
+                    createdAt: 'desc',
+                }
+            });
+        } else {
+            result = await prisma.post.findMany({
+                where:{
+                    AND: [
+                        {authorId: parseInt(id)},
+                        {published: typePublished}
+                    ],
+                },
+                include: {
+                    categorie: true,
+                    author: true
+                },
+                orderBy: {
+                    publishAt: 'desc'
+                }
+            });
+        }
     }
+    
     
     // const result = await prisma.user.findUnique({
     //     where:{

@@ -11,7 +11,7 @@ const ArticleDraft = () => {
     const user = useSelector((state) => state.auth?.user);
     const router = useRouter();
     const [articles, setArticles] = useState(null);
-
+    const role = user.role.nama;
 
     const deleteArticle = async (id) => {
         await userServices.deleteArticle(id)
@@ -101,7 +101,7 @@ const ArticleDraft = () => {
     return (
         <Fragment>
             <PageHeading heading="list Draft Article" />
-            <ListArticle articles={articles} showNotification={showNotification} typeList={"draft"} />
+            <ListArticle articles={articles} showNotification={showNotification} typeList={"draft"} role={role} />
         </Fragment>
     )
 };

@@ -10,6 +10,7 @@ const ArticlePublish = () => {
     const router = useRouter();
     const user = useSelector((state) => state.auth?.user);
     const [dataArticle, setDataArticle] = useState(null);
+    const role = user.role.nama;
 
     const getDataArticle = async () => {
         await userServices.getArticle(user.id, 'publish')
@@ -73,7 +74,7 @@ const ArticlePublish = () => {
     return (
         <Fragment>
             <PageHeading heading="Article Published" />
-            <ListArticle articles={dataArticle} showNotification={showNotification} typeList={"publish"} />
+            <ListArticle articles={dataArticle} showNotification={showNotification} typeList={"publish"} role={role}  />
         </Fragment>
     )
 };

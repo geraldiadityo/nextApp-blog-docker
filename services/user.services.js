@@ -54,9 +54,6 @@ async function getArticle(userId, typePublish){
     return await fetchWrapper.get(`${baseUrl}/posts/${userId}/${typePublish}`);
 }
 
-async function getOneArticle(id){
-    return await fetchWrapper.get(`${baseUrl}/post/${id}`);
-}
 
 async function deleteArticle(id){
     return await fetchWrapper.delete(`${baseUrl}/posts/${id}`);
