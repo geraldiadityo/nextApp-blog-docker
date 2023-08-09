@@ -11,6 +11,7 @@ router.get(async (req, res) => {
         },
         include:{
             categorie: true,
+            author: true
         }
     });
 

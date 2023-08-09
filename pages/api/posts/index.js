@@ -7,6 +7,13 @@ router.get(async (req, res) => {
     const result = await prisma.post.findMany({
         where:{
             published:true
+        },
+        include: {
+            author: true,
+            categorie: true
+        },
+        orderBy:{
+            publishAt: 'desc'
         }
     });
 

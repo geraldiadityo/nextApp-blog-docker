@@ -25,9 +25,10 @@ export default function App({ Component, pageProps }) {
 
   function authCheck(url){
     const cookie = getCookie('token');
-    const publicPath = ["/","/auth"];
+    const publicPath = ["/","/auth","/categorie"];
+    const adminPath = "/admin" || "/api";
     const path = url.split("?")[0];
-    if (!cookie && !publicPath.includes(path)) {
+    if (!cookie && path.startsWith(adminPath)) {
       console.log(cookie);
       router.push({
         pathname: '/auth',

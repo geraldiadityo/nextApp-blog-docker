@@ -5,22 +5,15 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Swal from "sweetalert2";
 
-export const getServerSideProps = async () => {
-    const users = await userServices.getAllUser()
-    return {
-        props: {
-            dataUser: users.data
-        }
-    }
-};
-
-const Home = ({ dataUser }) => {
+const Home = () => {
     const [users, setUsers] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
-        setUsers(dataUser);
-    },[dataUser]);
+        userServices.getAllUser()
+        .then((res) => setUsers(res.data))
+        .catch((err) => console.log(err));
+    },[]);
 
     const deleteUser = async (id) => {
         await userServices.deleteUser(id)
@@ -95,7 +88,7 @@ const Home = ({ dataUser }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {dataUser && dataUser.map((data, index) => {
+                                {users && users.map((data, index) => {
                                     return (
                                         <tr key={data.id}>
                                             <td>{index+1}</td>
@@ -109,14 +102,14 @@ const Home = ({ dataUser }) => {
                                         </tr>
                                     )
                                 })}
-                                {!dataUser &&
+                                {!users &&
                                     <tr>
                                         <td colSpan={5} className="text-center">
                                             waiting....
                                         </td>
                                     </tr>
                                 }
-                                {dataUser && !dataUser.length &&
+                                {users && !users.length &&
                                     <tr>
                                         <td colSpan={5} className="text-center">
                                             No Data Display!

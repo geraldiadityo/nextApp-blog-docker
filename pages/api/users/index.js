@@ -1,9 +1,10 @@
 import { createRouter } from "next-connect";
 import prisma from "@/lib/prisma";
 import apiHeaderMiddleware from "@/middleware/apiHeaderMiddleware";
+const bcrypt = require("bcryptjs");
 const router = createRouter();
 
-const bcrypt = require("bcryptjs");
+router.use(apiHeaderMiddleware);
 router.get(async (req, res) => {
     const result = await prisma.user.findMany({
         include:{
@@ -14,7 +15,6 @@ router.get(async (req, res) => {
         data:result
     });
 });
-router.use(apiHeaderMiddleware);
 router.post(async (req, res) => {
     const { firstName, lastName, username, password, status, role } = req.body;
     const dataRole = await prisma.role.findUnique({
